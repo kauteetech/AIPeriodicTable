@@ -1073,36 +1073,11 @@
     <script>
         // ============ DATA ============
         const FAMILIES = {
-            reactive: {
-                name: 'Reactive',
-                description: 'Control, action, autonomy',
-                color: '#D97706',
-                lightColor: '#FEF3C7',
-            },
-            retrieval: {
-                name: 'Retrieval',
-                description: 'Memory, semantic search, storage, adaptation',
-                color: '#0891B2',
-                lightColor: '#CFFAFE',
-            },
-            orchestration: {
-                name: 'Orchestration',
-                description: 'Composing multiple elements into workflows',
-                color: '#16A34A',
-                lightColor: '#DCFCE7',
-            },
-            validation: {
-                name: 'Validation',
-                description: 'Safety, red teaming, interpretability',
-                color: '#DC2626',
-                lightColor: '#FEE2E2',
-            },
-            models: {
-                name: 'Models',
-                description: 'Foundational and specialized models',
-                color: '#7C3AED',
-                lightColor: '#EDE9FE',
-            },
+            reactive: { name: 'Reactive', description: 'Control, action, autonomy' },
+            retrieval: { name: 'Retrieval', description: 'Memory, semantic search, storage, adaptation' },
+            orchestration: { name: 'Orchestration', description: 'Composing multiple elements into workflows' },
+            validation: { name: 'Validation', description: 'Safety, red teaming, interpretability' },
+            models: { name: 'Models', description: 'Foundational and specialized models' },
         };
 
         const ROWS = {
@@ -1114,53 +1089,54 @@
 
         const ELEMENTS = [
             // Row 1: Primitives
-            { symbol: 'Pr', name: 'Prompting', fullName: 'Prompting', row: 1, family: 'reactive', description: 'User instructions that guide AI behavior', concept: 'User instructions like "write me an email", "summarize this document", "explain quantum physics"', properties: ['Atomic', 'Highly reactive: small wording changes produce very different outputs', 'Foundation for all AI interactions'], role: 'The fundamental way humans communicate intent to AI systems' },
-            { symbol: 'Em', name: 'Embeddings', fullName: 'Embeddings', row: 1, family: 'retrieval', description: 'Numerical representations of meaning', concept: 'Numerical representations of meaning (e.g., "the cat sat on the mat" → vector)', properties: ['Similar meanings → similar vectors', 'Basis for semantic search and AI "memory"', 'Enable machines to understand meaning'], role: 'The foundation of semantic understanding in AI systems' },
-            { symbol: 'Lg', name: 'LLM', fullName: 'Large Language Model', row: 1, family: 'models', description: 'Foundational language models', concept: 'Large language models like ChatGPT, Claude, IBM Granite', examples: ['ChatGPT', 'Claude', 'IBM Granite'], properties: ['Stable foundational capabilities', 'Noble gas analogy: everything else reacts around them', 'Core reasoning and generation engine'], role: 'The stable foundation around which everything else reacts' },
+            { symbol: 'Pr', name: 'Prompting', fullName: 'Prompting', row: 1, family: 'reactive', description: 'User instructions that guide AI behavior', concept: 'User instructions like "write me an email", "summarize this document"', properties: ['Atomic', 'Highly reactive: small wording changes produce very different outputs'], role: 'The fundamental way humans communicate intent to AI systems' },
+            { symbol: 'Em', name: 'Embeddings', fullName: 'Embeddings', row: 1, family: 'retrieval', description: 'Numerical representations of meaning', concept: 'Numerical representations of meaning (e.g., "the cat sat on the mat" → vector)', properties: ['Similar meanings → similar vectors', 'Basis for semantic search and AI "memory"'], role: 'The foundation of semantic understanding in AI systems' },
+            { symbol: 'Lg', name: 'LLM', fullName: 'Large Language Model', row: 1, family: 'models', description: 'Foundational language models', concept: 'Large language models like ChatGPT, Claude, IBM Granite', examples: ['ChatGPT', 'Claude', 'IBM Granite'], properties: ['Stable foundational capabilities', 'Noble gas analogy: everything else reacts around them'], role: 'The stable foundation around which everything else reacts' },
 
             // Row 2: Compositions
-            { symbol: 'Fc', name: 'Function Calling', fullName: 'Function Calling', row: 2, family: 'reactive', description: 'LLM calls tools/APIs before answering', concept: 'LLM calls tools/APIs before answering (e.g., weather API to answer "What\'s the weather?")', properties: ['Requires: a model, structured output, tool integration', 'Enables LLMs to interact with external systems', 'Bridge between language and action'], role: 'Composition of Pr + Lg that enables tool use' },
-            { symbol: 'Vx', name: 'Vector Databases', fullName: 'Vector Databases', row: 2, family: 'retrieval', description: 'Data stores optimized for semantic search', concept: 'Data stores optimized for semantic search; store millions of embeddings, query for nearest ones', properties: ['Composition of embeddings into a vector store', 'Enable efficient semantic search at scale', 'Foundation for retrieval-augmented systems'], role: 'Composition of Em that enables large-scale semantic search' },
-            { symbol: 'Rg', name: 'RAG', fullName: 'Retrieval Augmented Generation', row: 2, family: 'orchestration', description: 'System retrieves relevant context via embeddings + vector DB, augments prompt, then LLM answers', concept: 'System retrieves relevant context via embeddings + vector DB, augments prompt, then LLM answers', properties: ['No primitive in row 1 under orchestration', 'Orchestration only emerges when combining multiple pieces', 'Grounds LLM responses in retrieved data'], role: 'Orchestration pattern combining Em, Vx, Pr, and Lg' },
-            { symbol: 'Gr', name: 'Guardrails', fullName: 'Guardrails', row: 2, family: 'validation', description: 'Runtime safety filters and validation', concept: 'Runtime safety filters, schema validation, content safety, prevention of "pure garbage"', properties: ['Ensures output safety and quality', 'Prevents sensitive data leakage', 'Validates schema and format compliance'], role: 'Safety wrapper for production AI systems' },
-            { symbol: 'Mm', name: 'Multimodal Models', fullName: 'Multimodal Models', row: 2, family: 'models', description: 'Models that process images and audio in addition to text', concept: 'Models that process images and audio in addition to text', properties: ['Extend LLM capabilities beyond text', 'Enable vision and audio understanding', 'Composition of multiple modality models'], role: 'Composition of Lg that adds multimodal capabilities' },
+            { symbol: 'Fc', name: 'Function Calling', fullName: 'Function Calling', row: 2, family: 'reactive', description: 'LLM calls tools/APIs before answering', concept: 'LLM calls tools/APIs before answering (e.g., weather API)', properties: ['Requires: a model, structured output, tool integration', 'Enables LLMs to interact with external systems'], role: 'Composition of Pr + Lg that enables tool use' },
+            { symbol: 'Vx', name: 'Vector Databases', fullName: 'Vector Databases', row: 2, family: 'retrieval', description: 'Data stores optimized for semantic search', concept: 'Data stores optimized for semantic search; store millions of embeddings', properties: ['Composition of embeddings into a vector store', 'Enable efficient semantic search at scale'], role: 'Composition of Em that enables large-scale semantic search' },
+            { symbol: 'Rg', name: 'RAG', fullName: 'Retrieval Augmented Generation', row: 2, family: 'orchestration', description: 'System retrieves relevant context via embeddings + vector DB, augments prompt, then LLM answers', concept: 'System retrieves relevant context via embeddings + vector DB, augments prompt, then LLM answers', properties: ['No primitive in row 1 under orchestration', 'Orchestration only emerges when combining multiple pieces'], role: 'Orchestration pattern combining Em, Vx, Pr, and Lg' },
+            { symbol: 'Gr', name: 'Guardrails', fullName: 'Guardrails', row: 2, family: 'validation', description: 'Runtime safety filters and validation', concept: 'Runtime safety filters, schema validation, content safety', properties: ['Ensures output safety and quality', 'Prevents sensitive data leakage'], role: 'Safety wrapper for production AI systems' },
+            { symbol: 'Mm', name: 'Multimodal Models', fullName: 'Multimodal Models', row: 2, family: 'models', description: 'Models that process images and audio in addition to text', concept: 'Models that process images and audio in addition to text', properties: ['Extend LLM capabilities beyond text', 'Enable vision and audio understanding'], role: 'Composition of Lg that adds multimodal capabilities' },
 
             // Row 3: Deployment
-            { symbol: 'Ag', name: 'Agents', fullName: 'Agents', row: 3, family: 'reactive', description: 'Think–act–observe loops with autonomous planning', concept: 'Think–act–observe loops, planning and taking actions via tools/function calls, observing results, repeating until a goal', properties: ['Progression from prompt → function → agent', 'From control → action → autonomy', 'Autonomous goal-seeking behavior'], role: 'Composition of Pr, Fc, and Lg with iterative loops' },
-            { symbol: 'Ft', name: 'Fine Tuning', fullName: 'Fine Tuning', row: 3, family: 'retrieval', description: 'Adapt a base model by training on domain-specific data', concept: 'Adapt a base model by training on domain/use-case specific data (e.g., medical papers, company code)', properties: ['Adaptation as memory baked into model weights', 'Three time scales of memory: Em (encode), Vx (store), Ft (parameters)', 'Domain-specific model specialization'], role: 'Composition of Lg with domain adaptation' },
-            { symbol: 'Fw', name: 'Framework', fullName: 'Framework', row: 3, family: 'orchestration', description: 'Platforms tying everything together to build and deploy AI systems', concept: 'Platforms tying everything together to build and deploy AI systems (e.g., LangChain-like platforms)', examples: ['LangChain', 'LlamaIndex', 'Haystack'], properties: ['Orchestration platform for AI systems', 'Provides plumbing and deployment capabilities', 'Enables complex AI workflows'], role: 'Orchestration layer for production AI systems' },
-            { symbol: 'Rt', name: 'Red Teaming', fullName: 'Red Teaming', row: 3, family: 'validation', description: 'Adversarial testing to break the AI', concept: 'Adversarial testing: jailbreaks, prompt injection, data exfiltration attempts to "break the AI"', properties: ['Proactive safety testing', 'Identifies vulnerabilities before deployment', 'Ensures robustness against attacks'], role: 'Deployment-stage safety validation' },
-            { symbol: 'Sm', name: 'Small Models', fullName: 'Small Models', row: 3, family: 'models', description: 'Distilled, specialized, fast, cheap models', concept: 'Distilled, specialized, fast, cheap models that may run on a phone', properties: ['Optimized for efficiency', 'Can run on edge devices', 'Trade-off: capability for speed and cost'], role: 'Specialized, efficient models for deployment' },
+            { symbol: 'Ag', name: 'Agents', fullName: 'Agents', row: 3, family: 'reactive', description: 'Think–act–observe loops with autonomous planning', concept: 'Think–act–observe loops, planning and taking actions via tools/function calls', properties: ['Progression from prompt → function → agent', 'From control → action → autonomy'], role: 'Composition of Pr, Fc, and Lg with iterative loops' },
+            { symbol: 'Ft', name: 'Fine Tuning', fullName: 'Fine Tuning', row: 3, family: 'retrieval', description: 'Adapt a base model by training on domain-specific data', concept: 'Adapt a base model by training on domain/use-case specific data (e.g., medical papers)', properties: ['Adaptation as memory baked into model weights', 'Three time scales of memory: Em (encode), Vx (store), Ft (parameters)'], role: 'Composition of Lg with domain adaptation' },
+            { symbol: 'Fw', name: 'Framework', fullName: 'Framework', row: 3, family: 'orchestration', description: 'Platforms tying everything together to build and deploy AI systems', concept: 'Platforms tying everything together to build and deploy AI systems (e.g., LangChain-like platforms)', examples: ['LangChain', 'LlamaIndex', 'Haystack'], properties: ['Orchestration platform for AI systems', 'Provides plumbing and deployment capabilities'], role: 'Orchestration layer for production AI systems' },
+            { symbol: 'Re', name: 'Red Teaming', fullName: 'Red Teaming', row: 3, family: 'validation', description: 'Adversarial testing to break the AI', concept: 'Adversarial testing: jailbreaks, prompt injection, data exfiltration attempts to "break the AI"', properties: ['Proactive safety testing', 'Identifies vulnerabilities before deployment'], role: 'Deployment-stage safety validation' },
+            { symbol: 'Sm', name: 'Small Models', fullName: 'Small Models', row: 3, family: 'models', description: 'Distilled, specialized, fast, cheap models', concept: 'Distilled, specialized, fast, cheap models that may run on a phone', properties: ['Optimized for efficiency', 'Can run on edge devices'], role: 'Specialized, efficient models for deployment' },
 
             // Row 4: Emerging
-            { symbol: 'Ma', name: 'Multi-Agent Systems', fullName: 'Multi-Agent Systems', row: 4, family: 'reactive', description: 'Multiple AIs collaborating and specializing', concept: 'Multiple AIs collaborating, specializing, debating, coordinating (e.g., research agent, writer agent, critic agent)', properties: ['Reactive family taken to the extreme', 'Emergent collective intelligence', 'Specialization and coordination'], role: 'Emerging pattern of multiple autonomous agents' },
-            { symbol: 'Sy', name: 'Synthetic Data', fullName: 'Synthetic Data', row: 4, family: 'retrieval', description: 'Using AI to generate training data for AI', concept: 'Using AI to generate training data for AI when real data is limited', properties: ['Increasingly important as we hit limits of available real data', 'AI-generated training data for AI systems', 'Addresses data scarcity challenges'], role: 'Emerging data generation pattern' },
-            { symbol: 'In', name: 'Interpretability', fullName: 'Interpretability', row: 4, family: 'validation', description: 'Understanding why a model behaves as it does', concept: 'Understanding why a model behaves as it does; finding neurons responsible for specific behaviors', properties: ['Frontier safety work', 'Enables transparency and trust', 'Identifies model reasoning'], role: 'Emerging safety and understanding paradigm' },
-            { symbol: 'Th', name: 'Thinking Models', fullName: 'Thinking Models', row: 4, family: 'models', description: 'Models that spend time reasoning instead of immediate answers', concept: 'Models that spend time reasoning instead of immediate answers; chain-of-thought built directly into architecture, test-time compute scaling', properties: ['Chain-of-thought built directly into architecture', 'Test-time compute scaling', 'Tend to be the smartest models today'], role: 'Emerging frontier in model capabilities' },
+            { symbol: 'Ma', name: 'Multi-Agent Systems', fullName: 'Multi-Agent Systems', row: 4, family: 'reactive', description: 'Multiple AIs collaborating and specializing', concept: 'Multiple AIs collaborating, specializing, debating, coordinating (e.g., research agent, writer agent)', properties: ['Reactive family taken to the extreme', 'Emergent collective intelligence'], role: 'Emerging pattern of multiple autonomous agents' },
+            { symbol: 'Sy', name: 'Synthetic Data', fullName: 'Synthetic Data', row: 4, family: 'retrieval', description: 'Using AI to generate training data for AI', concept: 'Using AI to generate training data for AI when real data is limited', properties: ['Increasingly important as we hit limits of available real data'], role: 'Emerging data generation pattern' },
+            // Note: Row 4, G3 (Orchestration) is intentionally empty as per standard table structure
+            { symbol: 'In', name: 'Interpretability', fullName: 'Interpretability', row: 4, family: 'validation', description: 'Understanding why a model behaves as it does', concept: 'Understanding why a model behaves as it does; finding neurons responsible for specific behaviors', properties: ['Frontier safety work', 'Enables transparency and trust'], role: 'Emerging safety and understanding paradigm' },
+            { symbol: 'Th', name: 'Thinking Models', fullName: 'Thinking Models', row: 4, family: 'models', description: 'Models that spend time reasoning instead of immediate answers', concept: 'Models that spend time reasoning instead of immediate answers; chain-of-thought built directly into architecture', properties: ['Chain-of-thought built directly into architecture', 'Test-time compute scaling'], role: 'Emerging frontier in model capabilities' },
         ];
 
         const PATTERNS = [
-            { title: 'AI Image Generators', description: 'Generate images from text prompts', flow: [{ symbol: 'Pr', text: 'Prompt', color: '#D97706' }, { symbol: 'Mm', text: 'Multimodal', color: '#7C3AED' }], example: 'DALL-E, Midjourney, Stable Diffusion' },
-            { title: 'Code Assistants', description: 'Understand and generate code', flow: [{ symbol: 'Ft', text: 'Fine-tune', color: '#0891B2' }, { symbol: 'Pr', text: 'Prompt', color: '#D97706' }, { symbol: 'Lg', text: 'LLM', color: '#7C3AED' }], example: 'GitHub Copilot, Cursor, Claude' },
-            { title: 'Search & Recommendation', description: 'Find relevant information', flow: [{ symbol: 'Em', text: 'Embed', color: '#0891B2' }, { symbol: 'Vx', text: 'Vector DB', color: '#0891B2' }], example: 'Semantic search, recommendation engines' },
-            { title: 'Autonomous Workflows', description: 'Complete tasks automatically', flow: [{ symbol: 'Ag', text: 'Agent', color: '#D97706' }, { symbol: 'Fc', text: 'Function', color: '#D97706' }, { symbol: 'Fw', text: 'Framework', color: '#16A34A' }], example: 'Zapier AI, Make, n8n' },
+            { title: 'AI Image Generators', description: 'Generate images from text prompts', flow: [{ symbol: 'Pr', text: 'Prompt', color: '#facc15' }, { symbol: 'Mm', text: 'Multimodal', color: '#e879f9' }], example: 'DALL-E, Midjourney, Stable Diffusion' },
+            { title: 'Code Assistants', description: 'Understand and generate code', flow: [{ symbol: 'Ft', text: 'Fine-tune', color: '#38bdf8' }, { symbol: 'Pr', text: 'Prompt', color: '#facc15' }, { symbol: 'Lg', text: 'LLM', color: '#e879f9' }], example: 'GitHub Copilot, Cursor, Claude' },
+            { title: 'Search & Recommendation', description: 'Find relevant information', flow: [{ symbol: 'Em', text: 'Embed', color: '#38bdf8' }, { symbol: 'Vx', text: 'Vector DB', color: '#38bdf8' }], example: 'Semantic search, recommendation engines' },
+            { title: 'Autonomous Workflows', description: 'Complete tasks automatically', flow: [{ symbol: 'Ag', text: 'Agent', color: '#facc15' }, { symbol: 'Fc', text: 'Function', color: '#facc15' }, { symbol: 'Fw', text: 'Framework', color: '#f97316' }], example: 'Zapier AI, Make, n8n' },
         ];
 
         const RAG_FLOW = [
-            { step: 1, title: 'Em (Embeddings)', description: 'Convert documents to numerical vectors', color: '#0891B2' },
-            { step: 2, title: 'Vx (Vector Database)', description: 'Store embeddings for semantic search', color: '#0891B2' },
-            { step: 3, title: 'Rg (RAG)', description: 'Retrieve relevant chunks at query time', color: '#16A34A' },
-            { step: 4, title: 'Pr (Prompt)', description: 'Augment user prompt with retrieved context', color: '#D97706' },
-            { step: 5, title: 'Lg (LLM)', description: 'Generate grounded answers', color: '#7C3AED' },
-            { step: 6, title: 'Gr (Guardrails)', description: 'Optional safety layer', color: '#DC2626' },
+            { step: 1, title: 'Em (Embeddings)', description: 'Convert documents to numerical vectors', color: '#38bdf8' },
+            { step: 2, title: 'Vx (Vector Database)', description: 'Store embeddings for semantic search', color: '#38bdf8' },
+            { step: 3, title: 'Rg (RAG)', description: 'Retrieve relevant chunks at query time', color: '#f97316' },
+            { step: 4, title: 'Pr (Prompt)', description: 'Augment user prompt with retrieved context', color: '#facc15' },
+            { step: 5, title: 'Lg (LLM)', description: 'Generate grounded answers', color: '#e879f9' },
+            { step: 6, title: 'Gr (Guardrails)', description: 'Optional safety layer', color: '#2dd4bf' },
         ];
 
         const AGENT_FLOW = [
-            { step: 1, title: 'Ag (Agent)', description: 'Think and plan tasks', color: '#D97706' },
-            { step: 2, title: 'Fc (Function Calling)', description: 'Act by calling external tools', color: '#D97706' },
-            { step: 3, title: 'Observe', description: 'Analyze results', color: '#0891B2' },
-            { step: 4, title: 'Repeat', description: 'Loop until goal achieved', color: '#16A34A' },
-            { step: 5, title: 'Fw (Framework)', description: 'Deploy within orchestration platform', color: '#16A34A' },
+            { step: 1, title: 'Ag (Agent)', description: 'Think and plan tasks', color: '#facc15' },
+            { step: 2, title: 'Fc (Function Calling)', description: 'Act by calling external tools', color: '#facc15' },
+            { step: 3, title: 'Observe', description: 'Analyze results', color: '#f97316' },
+            { step: 4, title: 'Repeat', description: 'Loop until goal achieved', color: '#f97316' },
+            { step: 5, title: 'Fw (Framework)', description: 'Deploy within orchestration platform', color: '#f97316' },
         ];
 
         // ============ STATE ============
@@ -1168,7 +1144,6 @@
         let selectedRow = null;
         let selectedElement = null;
         let selectedChallengeElements = new Set();
-        let currentReaction = 'rag';
 
         // ============ UTILITY FUNCTIONS ============
         function getElementBySymbol(symbol) {
@@ -1182,24 +1157,22 @@
         }
 
         function createElementCard(element) {
-            const familyColor = FAMILIES[element.family].color;
-            const familyLightColor = FAMILIES[element.family].lightColor;
-            const isHidden = !shouldShowElement(element);
-
             const card = document.createElement('div');
-            card.className = `element-card ${isHidden ? 'hidden' : ''} ${selectedElement?.symbol === element.symbol ? 'selected' : ''}`;
-            card.style.borderColor = isHidden ? undefined : familyColor;
-            card.style.backgroundColor = isHidden ? undefined : familyLightColor;
-            card.style.setProperty('--family-color', familyColor);
+            card.className = `element-card ${shouldShowElement(element) ? '' : 'hidden'}`;
+            
+            // Color coding based on family
+            let color = '#fff';
+            if(element.family === 'reactive') color = '#facc15'; // Yellow
+            if(element.family === 'retrieval') color = '#38bdf8'; // Blue
+            if(element.family === 'orchestration') color = '#f97316'; // Orange
+            if(element.family === 'validation') color = '#2dd4bf'; // Teal
+            if(element.family === 'models') color = '#e879f9'; // Pink
 
+            card.style.backgroundColor = color;
+            
             card.innerHTML = `
-                <div class="element-card-content">
-                    <div class="element-symbol" style="color: ${familyColor};">${element.symbol}</div>
-                    <div class="element-name">${element.name}</div>
-                    <div class="element-family" style="color: ${familyColor};">${FAMILIES[element.family].name}</div>
-                    <p class="element-description">${element.description}</p>
-                    <div class="element-hint">Click for details →</div>
-                </div>
+                <div class="element-symbol">${element.symbol}</div>
+                <div class="element-name">${element.name}</div>
             `;
 
             card.addEventListener('click', () => showDetailPanel(element));
@@ -1209,181 +1182,156 @@
         function createEmptySlot() {
             const slot = document.createElement('div');
             slot.className = 'empty-slot';
-            slot.textContent = '(not defined)';
             return slot;
         }
 
-        function renderPeriodicTable() {
+        function renderPeriodicTableFixed() {
             const table = document.getElementById('periodicTable');
             table.innerHTML = '';
 
+            // 1. Render Family Headers (Top Row)
+            const familyKeys = Object.keys(FAMILIES);
+            
+            // Row label header (first cell)
+            const emptyHeader = document.createElement('div');
+            emptyHeader.className = 'family-header';
+            table.appendChild(emptyHeader);
+
+            // Render family headers in order: reactive, retrieval, orchestration, validation, models
+            familyKeys.forEach(key => {
+                const header = document.createElement('div');
+                header.className = 'family-header';
+                header.textContent = FAMILIES[key].name.substring(0, 4); // Shorten to fit
+                table.appendChild(header);
+            });
+
+            // 2. Render Rows (Data) - Exact structure: 1 Label + 5 Families
             for (let row = 1; row <= 4; row++) {
-                const rowSection = document.createElement('div');
-                rowSection.className = 'row-section';
+                // Row Label
+                const label = document.createElement('div');
+                label.className = 'row-label';
+                label.textContent = `Row ${row}: ${ROWS[row].name.substring(0, 4)}`;
+                table.appendChild(label);
 
-                const rowHeader = document.createElement('div');
-                rowHeader.className = 'row-header';
-                rowHeader.innerHTML = `
-                    <div class="row-label">
-                        <h2>Row ${row}</h2>
-                        <p>${ROWS[row].name}</p>
-                    </div>
-                    <div class="row-divider"></div>
-                `;
-                rowSection.appendChild(rowHeader);
-
-                const familyHeaders = document.createElement('div');
-                familyHeaders.className = 'family-headers';
-                Object.entries(FAMILIES).forEach(([key, family]) => {
-                    const header = document.createElement('div');
-                    header.className = 'family-header';
-                    header.innerHTML = `
-                        <div class="family-header-title" style="color: ${family.color};">${family.name}</div>
-                        <div class="family-header-desc">${family.description}</div>
-                    `;
-                    familyHeaders.appendChild(header);
-                });
-                rowSection.appendChild(familyHeaders);
-
-                const grid = document.createElement('div');
-                grid.className = 'elements-grid';
-
-                Object.keys(FAMILIES).forEach(familyKey => {
-                    const element = ELEMENTS.find(el => el.row === row && el.family === familyKey);
+                // Render family cells
+                familyKeys.forEach(key => {
+                    const element = ELEMENTS.find(el => el.row === row && el.family === key);
+                    
                     if (element) {
-                        grid.appendChild(createElementCard(element));
+                        table.appendChild(createElementCard(element));
                     } else {
-                        grid.appendChild(createEmptySlot());
+                        // Empty slot for missing cells (like orchestration in row 1 and 4)
+                        table.appendChild(createEmptySlot());
                     }
                 });
-
-                rowSection.appendChild(grid);
-                table.appendChild(rowSection);
             }
         }
 
         function showDetailPanel(element) {
             selectedElement = element;
-            const familyColor = FAMILIES[element.family].color;
-            const familyLightColor = FAMILIES[element.family].lightColor;
-
+            
             const panel = document.getElementById('detailPanel');
             const overlay = document.getElementById('detailOverlay');
 
-            panel.innerHTML = `
-                <div class="detail-header" style="background-color: ${familyLightColor};">
-                    <div class="detail-header-top">
-                        <div>
-                            <div class="detail-symbol" style="color: ${familyColor};">${element.symbol}</div>
-                            <div class="detail-title">${element.fullName}</div>
-                        </div>
-                        <button class="detail-close">×</button>
-                    </div>
+            // Set content
+            let color = '#fff';
+            if(element.family === 'reactive') color = '#facc15';
+            if(element.family === 'retrieval') color = '#38bdf8';
+            if(element.family === 'orchestration') color = '#f97316';
+            if(element.family === 'validation') color = '#2dd4bf';
+            if(element.family === 'models') color = '#e879f9';
+
+            document.getElementById('detailSymbol').textContent = element.symbol;
+            document.getElementById('detailSymbol').style.color = color;
+            document.getElementById('detailTitle').textContent = element.fullName;
+
+            const contentDiv = panel.querySelector('.detail-content');
+            
+            let html = `
+                <div class="detail-section">
+                    <div class="detail-label">Family</div>
+                    <div class="detail-text">${FAMILIES[element.family].name}</div>
                 </div>
-                <div class="detail-content">
-                    <div class="detail-section">
-                        <div class="detail-section-title">Family</div>
-                        <div class="detail-section-text">${FAMILIES[element.family].name}</div>
-                    </div>
-                    <div class="detail-section">
-                        <div class="detail-section-title">Row</div>
-                        <div class="detail-section-text">${ROWS[element.row].name}</div>
-                    </div>
-                    <div class="detail-section">
-                        <div class="detail-section-title">Description</div>
-                        <div class="detail-section-text">${element.description}</div>
-                    </div>
-                    <div class="detail-section">
-                        <div class="detail-section-title">Concept</div>
-                        <div class="detail-section-text">${element.concept}</div>
-                    </div>
-                    ${element.role ? `
-                    <div class="detail-section">
-                        <div class="detail-section-title">Role</div>
-                        <div class="detail-section-text">${element.role}</div>
-                    </div>
-                    ` : ''}
-                    ${element.properties ? `
-                    <div class="detail-section">
-                        <div class="detail-section-title">Properties</div>
-                        <ul class="detail-list">
-                            ${element.properties.map(prop => `<li>${prop}</li>`).join('')}
-                        </ul>
-                    </div>
-                    ` : ''}
-                    ${element.examples ? `
-                    <div class="detail-section">
-                        <div class="detail-section-title">Examples</div>
-                        <ul class="detail-list">
-                            ${element.examples.map(ex => `<li>${ex}</li>`).join('')}
-                        </ul>
-                    </div>
-                    ` : ''}
+                <div class="detail-section">
+                    <div class="detail-label">Row</div>
+                    <div class="detail-text">${ROWS[element.row].name}</div>
+                </div>
+                <div class="detail-section">
+                    <div class="detail-label">Description</div>
+                    <div class="detail-text">${element.description}</div>
+                </div>
+                <div class="detail-section">
+                    <div class="detail-label">Concept</div>
+                    <div class="detail-text">${element.concept}</div>
                 </div>
             `;
 
-            panel.style.display = 'block';
-            overlay.style.display = 'block';
+            if (element.role) {
+                html += `<div class="detail-section"><div class="detail-label">Role</div><div class="detail-text">${element.role}</div></div>`;
+            }
 
-            const closeBtn = panel.querySelector('.detail-close');
-            closeBtn.addEventListener('click', closeDetailPanel);
-            overlay.addEventListener('click', closeDetailPanel);
+            if (element.properties) {
+                html += `<div class="detail-section"><div class="detail-label">Properties</div><ul style="padding-left: 1.5rem; color: var(--text-primary);"><li>${element.properties.join('</li><li>')}</li></ul></div>`;
+            }
 
-            renderPeriodicTable();
+            if (element.examples) {
+                html += `<div class="detail-section"><div class="detail-label">Examples</div><ul style="padding-left: 1.5rem; color: var(--text-primary);"><li>${element.examples.join('</li><li>')}</li></ul></div>`;
+            }
+
+            contentDiv.innerHTML = html;
+
+            panel.classList.add('active');
+            overlay.classList.add('active');
         }
 
         function closeDetailPanel() {
             selectedElement = null;
-            document.getElementById('detailPanel').style.display = 'none';
-            document.getElementById('detailOverlay').style.display = 'none';
-            renderPeriodicTable();
+            document.getElementById('detailPanel').classList.remove('active');
+            document.getElementById('detailOverlay').classList.remove('active');
         }
 
         function renderReactionsView() {
             const ragFlow = document.getElementById('rag-flow');
             ragFlow.innerHTML = RAG_FLOW.map((step, idx) => `
                 <div class="flow-step">
-                    <div class="step-number" style="background-color: ${step.color};">${step.step}</div>
+                    <div class="step-number" style="background-color: ${step.color}; color: #fff;">${step.step}</div>
                     <div class="step-content">
-                        <h4>${step.title}</h4>
-                        <p>${step.description}</p>
+                        <h4 style="color: #0f172a; margin-bottom: 0.25rem;">${step.title}</h4>
+                        <p style="color: var(--text-secondary); font-size: 0.9rem;">${step.description}</p>
                     </div>
                 </div>
-                ${idx < RAG_FLOW.length - 1 ? '<div class="flow-divider"><div class="flow-divider-line"></div></div>' : ''}
             `).join('');
 
             const agentFlow = document.getElementById('agent-flow');
             agentFlow.innerHTML = AGENT_FLOW.map((step, idx) => `
                 <div class="flow-step">
-                    <div class="step-number" style="background-color: ${step.color};">${step.step}</div>
+                    <div class="step-number" style="background-color: ${step.color}; color: #fff;">${step.step}</div>
                     <div class="step-content">
-                        <h4>${step.title}</h4>
-                        <p>${step.description}</p>
+                        <h4 style="color: #0f172a; margin-bottom: 0.25rem;">${step.title}</h4>
+                        <p style="color: var(--text-secondary); font-size: 0.9rem;">${step.description}</p>
                     </div>
                 </div>
-                ${idx < AGENT_FLOW.length - 1 ? '<div class="flow-divider"><div class="flow-divider-line"></div></div>' : ''}
             `).join('');
         }
 
         function renderPatternsView() {
             const grid = document.getElementById('patternsGrid');
             grid.innerHTML = PATTERNS.map(pattern => `
-                <div class="pattern-card">
-                    <div class="pattern-title">${pattern.title}</div>
-                    <div class="pattern-desc">${pattern.description}</div>
-                    <div class="pattern-flow">
+                <div class="info-box" style="margin-bottom: 1.5rem;">
+                    <h4 style="color: #0f172a; margin-bottom: 0.5rem;">${pattern.title}</h4>
+                    <p style="color: var(--text-secondary); margin-bottom: 1rem;">${pattern.description}</p>
+                    <div style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 1rem;">
                         ${pattern.flow.map((el, idx) => `
-                            <div class="pattern-element">
-                                <div class="pattern-element-circle" style="background-color: ${el.color};">${el.symbol}</div>
-                                <div class="pattern-element-label">${el.text}</div>
+                            <div style="display: flex; align-items: center;">
+                                <span style="background-color: ${el.color}; color: #000; padding: 2px 6px; border-radius: 4px; font-weight: bold; margin-right: 0.5rem;">${el.symbol}</span>
+                                <span style="font-size: 0.8rem; color: var(--text-secondary);">${el.text}</span>
                             </div>
-                            ${idx < pattern.flow.length - 1 ? '<div class="pattern-arrow">→</div>' : ''}
+                            ${idx < pattern.flow.length - 1 ? '<span style="color: var(--text-secondary);">→</span>' : ''}
                         `).join('')}
                     </div>
-                    <div class="pattern-example">
-                        <div class="pattern-example-label">Examples:</div>
-                        <div class="pattern-example-text">${pattern.example}</div>
-                    </div>
+                    <p style="font-size: 0.85rem; color: var(--text-secondary); border-top: 1px solid #e2e8f0; padding-top: 0.75rem;">
+                        <strong>Examples:</strong> ${pattern.example}
+                    </p>
                 </div>
             `).join('');
         }
@@ -1392,8 +1340,8 @@
             const container = document.getElementById('challengeElements');
             container.innerHTML = ELEMENTS.map(el => `
                 <button class="element-selector ${selectedChallengeElements.has(el.symbol) ? 'selected' : ''}" data-symbol="${el.symbol}">
-                    <div style="font-weight: 700; color: ${FAMILIES[el.family].color};">${el.symbol}</div>
-                    <div style="font-size: 0.625rem; color: var(--color-gray-600);">${el.name}</div>
+                    <div style="font-weight: 700; font-size: 1.2rem;">${el.symbol}</div>
+                    <div style="font-size: 0.75rem; margin-top: 0.25rem;">${el.name}</div>
                 </button>
             `).join('');
 
@@ -1455,39 +1403,70 @@
         function showFeedback(text) {
             const container = document.getElementById('feedbackContainer');
             container.innerHTML = `
-                <div class="feedback-box amber">
-                    <h4>Analysis</h4>
-                    <p>${text}</p>
+                <div class="info-box" style="border-color: #facc15; background-color: #fffbeb;">
+                    <h4 style="color: #d97706; margin-bottom: 0.5rem;">Analysis</h4>
+                    <p style="white-space: pre-wrap; color: var(--text-primary);">${text}</p>
                 </div>
             `;
         }
 
         // ============ EVENT LISTENERS ============
+        
+        // Main Navigation Tabs
         document.querySelectorAll('.nav-tab').forEach(btn => {
             btn.addEventListener('click', () => {
                 const tabName = btn.dataset.tab;
+                
+                // Deactivate all main nav tabs
                 document.querySelectorAll('.nav-tab').forEach(b => b.classList.remove('active'));
+                
+                // Deactivate all content sections
                 document.querySelectorAll('.content-section').forEach(s => s.classList.remove('active'));
+                
+                // Activate selected main nav tab
                 btn.classList.add('active');
+                
+                // Show selected content section
                 document.getElementById(tabName).classList.add('active');
 
-                if (tabName === 'reactions') renderReactionsView();
-                if (tabName === 'patterns') renderPatternsView();
-                if (tabName === 'challenge') renderChallengeView();
+                // Initialize view-specific functions
+                if (tabName === 'reactions') {
+                    renderReactionsView();
+                    // Ensure first reaction tab is active by default
+                    const firstReactionTab = document.querySelector('[data-reaction="rag"]');
+                    if (firstReactionTab) {
+                        firstReactionTab.classList.add('active');
+                    }
+                }
+                if (tabName === 'patterns') {
+                    renderPatternsView();
+                }
+                if (tabName === 'challenge') {
+                    renderChallengeView();
+                }
             });
         });
 
+        // Reaction Sub-Tab Switching (FIXED: Separate class name)
         document.querySelectorAll('.reaction-tab').forEach(btn => {
             btn.addEventListener('click', () => {
                 const reaction = btn.dataset.reaction;
-                currentReaction = reaction;
+                
+                // Deactivate all reaction sub-tabs
                 document.querySelectorAll('.reaction-tab').forEach(b => b.classList.remove('active'));
+                
+                // Deactivate all reaction content
                 document.querySelectorAll('.reaction-content').forEach(c => c.classList.remove('active'));
+                
+                // Activate selected reaction sub-tab
                 btn.classList.add('active');
+                
+                // Show selected reaction content
                 document.getElementById(reaction + '-content').classList.add('active');
             });
         });
 
+        // Filter Button Event Listeners
         document.querySelectorAll('.filter-btn').forEach(btn => {
             btn.addEventListener('click', () => {
                 const filterType = btn.dataset.filter;
@@ -1523,19 +1502,31 @@
                     }
                 }
 
-                renderPeriodicTable();
+                renderPeriodicTableFixed();
             });
         });
 
         document.getElementById('analyzeBtn').addEventListener('click', analyzeCombination);
+        
         document.getElementById('clearBtn').addEventListener('click', () => {
             selectedChallengeElements.clear();
             document.getElementById('feedbackContainer').innerHTML = '';
             renderChallengeView();
         });
 
+        // Detail Panel Event Listeners
+        document.getElementById('detailOverlay').addEventListener('click', closeDetailPanel);
+        
+        const closeBtn = document.querySelector('.detail-close');
+        if (closeBtn) {
+            closeBtn.addEventListener('click', (e) => {
+                e.stopPropagation(); // Prevent overlay click
+                closeDetailPanel();
+            });
+        }
+
         // ============ INITIALIZATION ============
-        renderPeriodicTable();
+        renderPeriodicTableFixed();
     </script>
 </body>
 </html>
