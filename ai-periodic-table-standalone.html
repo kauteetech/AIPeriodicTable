@@ -1,0 +1,1541 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Periodic Table</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --color-white: #ffffff;
+            --color-black: #000000;
+            --color-gray-50: #f9fafb;
+            --color-gray-100: #f3f4f6;
+            --color-gray-200: #e5e7eb;
+            --color-gray-300: #d1d5db;
+            --color-gray-400: #9ca3af;
+            --color-gray-600: #4b5563;
+            --color-gray-900: #111827;
+            
+            --color-amber-400: #fbbf24;
+            --color-amber-600: #d97706;
+            --color-cyan-400: #22d3ee;
+            --color-cyan-600: #0891b2;
+            --color-green-400: #4ade80;
+            --color-green-600: #16a34a;
+            --color-red-400: #f87171;
+            --color-red-600: #dc2626;
+            --color-purple-400: #c084fc;
+            --color-purple-600: #7c3aed;
+            
+            --color-amber-light: #fef3c7;
+            --color-cyan-light: #cffafe;
+            --color-green-light: #dcfce7;
+            --color-red-light: #fee2e2;
+            --color-purple-light: #ede9fe;
+            --color-blue-light: #dbeafe;
+            --color-green-light-bg: #f0fdf4;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            background-color: var(--color-white);
+            color: var(--color-gray-900);
+            line-height: 1.6;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 1280px;
+            margin: 0 auto;
+            padding: 0 1rem;
+        }
+
+        /* Header */
+        header {
+            border-bottom: 1px solid var(--color-gray-200);
+            position: sticky;
+            top: 0;
+            z-index: 30;
+            background-color: var(--color-white);
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+        }
+
+        .header-content {
+            padding: 2rem 0;
+        }
+
+        h1 {
+            font-size: 3rem;
+            font-weight: 700;
+            margin-bottom: 0.75rem;
+            letter-spacing: -0.02em;
+        }
+
+        .header-description {
+            font-size: 1.125rem;
+            color: var(--color-gray-600);
+            max-width: 42rem;
+            line-height: 1.75;
+        }
+
+        /* Navigation Tabs */
+        .nav-tabs {
+            border-top: 1px solid var(--color-gray-200);
+            background-color: var(--color-gray-50);
+            display: flex;
+            gap: 0.25rem;
+            overflow-x: auto;
+        }
+
+        .nav-tabs button {
+            padding: 0.75rem 1rem;
+            font-weight: 500;
+            font-size: 0.875rem;
+            border: none;
+            background: none;
+            cursor: pointer;
+            border-bottom: 2px solid transparent;
+            transition: all 0.3s ease;
+            color: var(--color-gray-600);
+        }
+
+        .nav-tabs button:hover {
+            background-color: var(--color-white);
+            color: var(--color-gray-900);
+        }
+
+        .nav-tabs button.active {
+            border-bottom-color: var(--color-gray-900);
+            color: var(--color-gray-900);
+            background-color: var(--color-white);
+        }
+
+        /* Main Content */
+        main {
+            padding: 3rem 0;
+        }
+
+        .content-section {
+            display: none;
+            animation: fadeInScale 0.3s ease-out;
+        }
+
+        .content-section.active {
+            display: block;
+        }
+
+        @keyframes fadeInScale {
+            from {
+                opacity: 0;
+                transform: scale(0.98);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        /* Grid Layout */
+        .grid-layout {
+            display: grid;
+            grid-template-columns: 1fr 3fr;
+            gap: 2rem;
+        }
+
+        @media (max-width: 1024px) {
+            .grid-layout {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Sidebar Filters */
+        .filter-panel {
+            background-color: var(--color-white);
+            border: 1px solid var(--color-gray-200);
+            border-radius: 0.5rem;
+            padding: 1.5rem;
+            space: 1.5rem;
+            animation: fadeInScale 0.3s ease-out;
+        }
+
+        .filter-section {
+            margin-bottom: 1.5rem;
+        }
+
+        .filter-section:last-child {
+            margin-bottom: 0;
+        }
+
+        .filter-title {
+            font-size: 0.875rem;
+            font-weight: 700;
+            color: var(--color-gray-900);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            margin-bottom: 0.75rem;
+        }
+
+        .filter-buttons {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+        }
+
+        .filter-btn {
+            padding: 0.5rem 1rem;
+            border-radius: 0.5rem;
+            font-weight: 500;
+            font-size: 0.875rem;
+            border: 2px solid var(--color-gray-200);
+            background-color: var(--color-white);
+            color: var(--color-gray-700);
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .filter-btn:hover {
+            border-color: var(--color-gray-300);
+            box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+        }
+
+        .filter-btn.all-active {
+            background-color: var(--color-gray-900);
+            color: var(--color-white);
+            border-color: var(--color-gray-900);
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .filter-btn.active {
+            border-color: var(--color-gray-900);
+            background-color: var(--color-gray-50);
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Periodic Table */
+        .periodic-table {
+            space: 2rem;
+        }
+
+        .row-section {
+            margin-bottom: 2rem;
+            animation: fadeInScale 0.3s ease-out;
+        }
+
+        .row-header {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        .row-label {
+            width: 8rem;
+        }
+
+        .row-label h2 {
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: var(--color-gray-900);
+        }
+
+        .row-label p {
+            font-size: 0.875rem;
+            color: var(--color-gray-600);
+        }
+
+        .row-divider {
+            flex: 1;
+            height: 1px;
+            background: linear-gradient(to right, var(--color-gray-200), transparent);
+        }
+
+        .family-headers {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        .family-header {
+            text-align: center;
+        }
+
+        .family-header-title {
+            font-weight: 700;
+            font-size: 1rem;
+            margin-bottom: 0.25rem;
+        }
+
+        .family-header-desc {
+            font-size: 0.75rem;
+            color: var(--color-gray-600);
+            line-height: 1.4;
+        }
+
+        .elements-grid {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 1rem;
+            transition: all 0.5s ease;
+        }
+
+        /* Element Card */
+        .element-card {
+            height: 10rem;
+            padding: 1rem;
+            border: 2px solid var(--color-gray-300);
+            border-radius: 0.5rem;
+            background-color: var(--color-white);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            text-align: left;
+            opacity: 1;
+        }
+
+        .element-card:hover {
+            transform: scale(1.05);
+            box-shadow: 0 10px 15px rgba(0, 0, 0, 0.1);
+            border-color: var(--color-gray-400);
+        }
+
+        .element-card.hidden {
+            opacity: 0.3;
+        }
+
+        .element-card.selected {
+            border-color: var(--color-gray-900);
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .element-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 4rem;
+            height: 4rem;
+            border-radius: 50%;
+            opacity: 0.1;
+            transition: all 0.3s ease;
+        }
+
+        .element-card:hover::before {
+            opacity: 0.2;
+        }
+
+        .element-card-content {
+            position: relative;
+            z-index: 10;
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+        }
+
+        .element-symbol {
+            font-size: 1.875rem;
+            font-weight: 700;
+            font-family: 'Courier New', monospace;
+            margin-bottom: 0.25rem;
+            transition: transform 0.3s ease;
+        }
+
+        .element-card:hover .element-symbol {
+            transform: scale(1.1);
+        }
+
+        .element-name {
+            font-size: 0.875rem;
+            font-weight: 600;
+            color: var(--color-gray-900);
+            margin-bottom: 0.25rem;
+        }
+
+        .element-family {
+            font-size: 0.75rem;
+            font-weight: 500;
+            margin-bottom: 0.5rem;
+        }
+
+        .element-description {
+            font-size: 0.75rem;
+            color: var(--color-gray-600);
+            line-clamp: 2;
+            flex: 1;
+        }
+
+        .element-hint {
+            font-size: 0.75rem;
+            color: var(--color-gray-400);
+            margin-top: auto;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .element-card:hover .element-hint {
+            opacity: 1;
+        }
+
+        .empty-slot {
+            height: 10rem;
+            border: 2px dashed var(--color-gray-200);
+            border-radius: 0.5rem;
+            background-color: var(--color-gray-50);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.75rem;
+            color: var(--color-gray-400);
+            text-align: center;
+            padding: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        .empty-slot:hover {
+            background-color: var(--color-gray-100);
+        }
+
+        /* Detail Panel */
+        .detail-overlay {
+            position: fixed;
+            inset: 0;
+            background-color: rgba(0, 0, 0, 0.3);
+            z-index: 40;
+            animation: fadeInScale 0.3s ease-out;
+        }
+
+        .detail-panel {
+            position: fixed;
+            right: 0;
+            top: 0;
+            bottom: 0;
+            width: 100%;
+            max-width: 28rem;
+            background-color: var(--color-white);
+            box-shadow: 0 20px 25px rgba(0, 0, 0, 0.15);
+            z-index: 50;
+            overflow-y: auto;
+            animation: slideInFromRight 0.3s ease-out;
+        }
+
+        @keyframes slideInFromRight {
+            from {
+                transform: translateX(100%);
+            }
+            to {
+                transform: translateX(0);
+            }
+        }
+
+        .detail-header {
+            position: sticky;
+            top: 0;
+            padding: 1.5rem;
+            border-bottom: 1px solid var(--color-gray-200);
+            transition: all 0.3s ease;
+        }
+
+        .detail-header-top {
+            display: flex;
+            align-items: flex-start;
+            justify-content: space-between;
+            margin-bottom: 1rem;
+        }
+
+        .detail-symbol {
+            font-size: 2.25rem;
+            font-weight: 700;
+            font-family: 'Courier New', monospace;
+            margin-bottom: 0.5rem;
+        }
+
+        .detail-close {
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: var(--color-gray-400);
+            transition: color 0.3s ease;
+            padding: 0.5rem;
+            margin: -0.5rem;
+        }
+
+        .detail-close:hover {
+            color: var(--color-gray-900);
+        }
+
+        .detail-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--color-gray-900);
+        }
+
+        .detail-content {
+            padding: 1.5rem;
+            space: 1.5rem;
+        }
+
+        .detail-section {
+            margin-bottom: 1.5rem;
+        }
+
+        .detail-section-title {
+            font-weight: 700;
+            color: var(--color-gray-900);
+            margin-bottom: 0.5rem;
+            font-size: 0.875rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .detail-section-text {
+            font-size: 0.875rem;
+            color: var(--color-gray-700);
+            line-height: 1.6;
+        }
+
+        .detail-list {
+            list-style: none;
+            space: 0.5rem;
+        }
+
+        .detail-list li {
+            font-size: 0.875rem;
+            color: var(--color-gray-700);
+            padding-left: 1.5rem;
+            position: relative;
+        }
+
+        .detail-list li::before {
+            content: '•';
+            position: absolute;
+            left: 0;
+        }
+
+        /* Reactions View */
+        .reactions-container {
+            space: 2rem;
+        }
+
+        .reaction-tabs {
+            display: flex;
+            gap: 1rem;
+            border-bottom: 1px solid var(--color-gray-200);
+            padding-bottom: 1rem;
+            animation: fadeInScale 0.3s ease-out;
+        }
+
+        .reaction-tab {
+            padding: 0.75rem 1.5rem;
+            font-weight: 500;
+            font-size: 0.875rem;
+            border: none;
+            background: none;
+            cursor: pointer;
+            border-bottom: 2px solid transparent;
+            transition: all 0.3s ease;
+            color: var(--color-gray-600);
+        }
+
+        .reaction-tab:hover {
+            background-color: var(--color-gray-50);
+            color: var(--color-gray-900);
+        }
+
+        .reaction-tab.active {
+            border-bottom-color: var(--color-gray-900);
+            color: var(--color-gray-900);
+            background-color: var(--color-white);
+        }
+
+        .reaction-content {
+            display: none;
+            animation: fadeInScale 0.3s ease-out;
+        }
+
+        .reaction-content.active {
+            display: block;
+        }
+
+        .info-box {
+            border-radius: 0.5rem;
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+            border: 1px solid;
+        }
+
+        .info-box.blue {
+            background-color: var(--color-blue-light);
+            border-color: #93c5fd;
+        }
+
+        .info-box.green {
+            background-color: var(--color-green-light-bg);
+            border-color: #86efac;
+        }
+
+        .info-box h3 {
+            font-weight: 700;
+            color: var(--color-gray-900);
+            margin-bottom: 0.5rem;
+        }
+
+        .info-box p {
+            color: var(--color-gray-700);
+            font-size: 0.875rem;
+        }
+
+        .flow-step {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            padding: 0.75rem;
+            border-radius: 0.375rem;
+            transition: all 0.3s ease;
+            margin-bottom: 1.5rem;
+        }
+
+        .flow-step:hover {
+            background-color: var(--color-gray-50);
+        }
+
+        .step-number {
+            flex-shrink: 0;
+            width: 3rem;
+            height: 3rem;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 700;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .step-content h4 {
+            font-weight: 700;
+            color: var(--color-gray-900);
+            margin-bottom: 0.25rem;
+        }
+
+        .step-content p {
+            font-size: 0.875rem;
+            color: var(--color-gray-600);
+        }
+
+        .flow-divider {
+            display: flex;
+            justify-content: center;
+            margin: 0.5rem 0;
+        }
+
+        .flow-divider-line {
+            width: 1px;
+            height: 2rem;
+            background: linear-gradient(to bottom, var(--color-gray-300), var(--color-gray-100));
+        }
+
+        /* Patterns Section */
+        .patterns-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(20rem, 1fr));
+            gap: 1.5rem;
+            animation: fadeInScale 0.3s ease-out;
+        }
+
+        .pattern-card {
+            border: 1px solid var(--color-gray-200);
+            border-radius: 0.5rem;
+            padding: 1.5rem;
+            transition: all 0.3s ease;
+        }
+
+        .pattern-card:hover {
+            box-shadow: 0 10px 15px rgba(0, 0, 0, 0.1);
+            border-color: var(--color-gray-300);
+            transform: scale(1.05);
+        }
+
+        .pattern-title {
+            font-weight: 700;
+            color: var(--color-gray-900);
+            margin-bottom: 0.25rem;
+        }
+
+        .pattern-desc {
+            font-size: 0.875rem;
+            color: var(--color-gray-600);
+            margin-bottom: 1rem;
+        }
+
+        .pattern-flow {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-bottom: 1rem;
+            flex-wrap: wrap;
+            padding: 0.5rem;
+            border-radius: 0.375rem;
+            transition: all 0.3s ease;
+        }
+
+        .pattern-flow:hover {
+            background-color: var(--color-white);
+        }
+
+        .pattern-element {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            transition: transform 0.3s ease;
+        }
+
+        .pattern-element:hover {
+            transform: scale(1.1);
+        }
+
+        .pattern-element-circle {
+            width: 2.5rem;
+            height: 2.5rem;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 700;
+            font-size: 0.875rem;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            margin-bottom: 0.25rem;
+        }
+
+        .pattern-element-label {
+            font-size: 0.625rem;
+            color: var(--color-gray-600);
+            text-align: center;
+        }
+
+        .pattern-arrow {
+            color: var(--color-gray-400);
+            font-size: 1.25rem;
+        }
+
+        .pattern-example {
+            padding-top: 1rem;
+            border-top: 1px solid var(--color-gray-200);
+            font-size: 0.875rem;
+        }
+
+        .pattern-example-label {
+            color: var(--color-gray-600);
+            margin-bottom: 0.25rem;
+        }
+
+        .pattern-example-text {
+            font-weight: 500;
+            color: var(--color-gray-900);
+        }
+
+        /* Challenge Section */
+        .challenge-container {
+            space: 2rem;
+            animation: fadeInScale 0.3s ease-out;
+        }
+
+        .element-selector-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(6rem, 1fr));
+            gap: 0.75rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .element-selector {
+            padding: 0.75rem;
+            border: 2px solid var(--color-gray-300);
+            border-radius: 0.375rem;
+            background-color: var(--color-white);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-align: center;
+            font-size: 0.875rem;
+        }
+
+        .element-selector:hover {
+            border-color: var(--color-gray-400);
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+        }
+
+        .element-selector.selected {
+            border-color: var(--color-gray-900);
+            background-color: var(--color-gray-50);
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .action-buttons {
+            display: flex;
+            gap: 0.75rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .btn {
+            padding: 0.75rem 1.5rem;
+            border: none;
+            border-radius: 0.375rem;
+            font-weight: 500;
+            font-size: 0.875rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .btn-primary {
+            background-color: var(--color-gray-900);
+            color: var(--color-white);
+        }
+
+        .btn-primary:hover {
+            background-color: var(--color-gray-800);
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            transform: scale(1.05);
+        }
+
+        .btn-secondary {
+            background-color: var(--color-gray-200);
+            color: var(--color-gray-900);
+        }
+
+        .btn-secondary:hover {
+            background-color: var(--color-gray-300);
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+        }
+
+        .feedback-box {
+            border-radius: 0.5rem;
+            padding: 1.5rem;
+            border: 1px solid;
+            margin-bottom: 1.5rem;
+            animation: fadeInScale 0.3s ease-out;
+        }
+
+        .feedback-box.amber {
+            background-color: #fef3c7;
+            border-color: #fcd34d;
+        }
+
+        .feedback-box h4 {
+            font-weight: 700;
+            color: var(--color-gray-900);
+            margin-bottom: 0.5rem;
+        }
+
+        .feedback-box p {
+            font-size: 0.875rem;
+            color: var(--color-gray-700);
+            line-height: 1.6;
+            white-space: pre-wrap;
+        }
+
+        .guiding-questions {
+            list-style: none;
+        }
+
+        .guiding-questions li {
+            padding: 0.5rem;
+            border-radius: 0.375rem;
+            transition: all 0.3s ease;
+            margin-bottom: 0.5rem;
+            font-size: 0.875rem;
+            color: var(--color-gray-700);
+        }
+
+        .guiding-questions li:hover {
+            background-color: var(--color-white);
+        }
+
+        /* Footer */
+        footer {
+            border-top: 1px solid var(--color-gray-200);
+            margin-top: 4rem;
+            padding: 3rem 0;
+            background-color: var(--color-gray-50);
+        }
+
+        .footer-content {
+            text-align: center;
+            font-size: 0.875rem;
+            color: var(--color-gray-600);
+            space: 0.5rem;
+        }
+
+        .footer-content p {
+            margin-bottom: 0.5rem;
+        }
+
+        .footer-content p:first-child {
+            font-weight: 500;
+            color: var(--color-gray-700);
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 2rem;
+            }
+
+            .elements-grid,
+            .family-headers {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .detail-panel {
+                max-width: 100%;
+            }
+
+            .patterns-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="container">
+            <div class="header-content">
+                <h1>AI Periodic Table</h1>
+                <p class="header-description">Explore how AI concepts combine into reactions. Understand the building blocks of modern AI systems through an interactive periodic table.</p>
+            </div>
+        </div>
+
+        <!-- Navigation Tabs -->
+        <div style="border-top: 1px solid var(--color-gray-200); background-color: var(--color-gray-50);">
+            <div class="container">
+                <div class="nav-tabs">
+                    <button class="nav-tab active" data-tab="table">Periodic Table</button>
+                    <button class="nav-tab" data-tab="reactions">Reactions</button>
+                    <button class="nav-tab" data-tab="patterns">Patterns</button>
+                    <button class="nav-tab" data-tab="challenge">Your Challenge</button>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="container">
+        <!-- Periodic Table View -->
+        <div id="table" class="content-section active">
+            <div class="grid-layout">
+                <!-- Sidebar Filters -->
+                <aside>
+                    <div class="filter-panel">
+                        <!-- Family Filters -->
+                        <div class="filter-section">
+                            <div class="filter-title">Filter by Family</div>
+                            <div class="filter-buttons">
+                                <button class="filter-btn all-active" data-filter="family" data-value="all">All Families</button>
+                                <button class="filter-btn" data-filter="family" data-value="reactive">Reactive</button>
+                                <button class="filter-btn" data-filter="family" data-value="retrieval">Retrieval</button>
+                                <button class="filter-btn" data-filter="family" data-value="orchestration">Orchestration</button>
+                                <button class="filter-btn" data-filter="family" data-value="validation">Validation</button>
+                                <button class="filter-btn" data-filter="family" data-value="models">Models</button>
+                            </div>
+                        </div>
+
+                        <!-- Row Filters -->
+                        <div class="filter-section">
+                            <div class="filter-title">Filter by Row</div>
+                            <div class="filter-buttons">
+                                <button class="filter-btn all-active" data-filter="row" data-value="all">All Rows</button>
+                                <button class="filter-btn" data-filter="row" data-value="1">Primitives</button>
+                                <button class="filter-btn" data-filter="row" data-value="2">Compositions</button>
+                                <button class="filter-btn" data-filter="row" data-value="3">Deployment</button>
+                                <button class="filter-btn" data-filter="row" data-value="4">Emerging</button>
+                            </div>
+                        </div>
+                    </div>
+                </aside>
+
+                <!-- Periodic Table -->
+                <div class="periodic-table" id="periodicTable"></div>
+            </div>
+        </div>
+
+        <!-- Reactions View -->
+        <div id="reactions" class="content-section">
+            <div class="reactions-container">
+                <div class="reaction-tabs">
+                    <button class="reaction-tab active" data-reaction="rag">Production RAG</button>
+                    <button class="reaction-tab" data-reaction="agent">Agentic Loop</button>
+                </div>
+
+                <!-- RAG Reaction -->
+                <div id="rag-content" class="reaction-content active">
+                    <div class="info-box blue">
+                        <h3>Production RAG over Company Documentation</h3>
+                        <p>Retrieve relevant company documents, augment the user's prompt with context, then generate a grounded answer.</p>
+                    </div>
+
+                    <div id="rag-flow"></div>
+
+                    <div class="info-box green">
+                        <h4>RAG Pattern</h4>
+                        <p>The RAG pattern combines Embeddings (Em) → Vector Database (Vx) → Retrieval (Rg) to ground LLM responses in company data, making answers more accurate and contextual.</p>
+                    </div>
+                </div>
+
+                <!-- Agentic Loop Reaction -->
+                <div id="agent-content" class="reaction-content">
+                    <div class="info-box blue">
+                        <h3>Agentic Loop</h3>
+                        <p>Agent thinks and plans a task, calls functions/tools to act, observes results, and repeats until the goal is achieved.</p>
+                    </div>
+
+                    <div id="agent-flow"></div>
+
+                    <div class="info-box green">
+                        <h4>Agentic Pattern</h4>
+                        <p>The agentic loop combines Agent (Ag) → Function Calling (Fc) → Observation to create autonomous, goal-seeking behavior.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Patterns View -->
+        <div id="patterns" class="content-section">
+            <div class="info-box blue">
+                <h3>Common AI System Patterns</h3>
+                <p>Most AI systems can be mapped onto combinations of periodic table elements. Here are some common patterns you'll see in real products and startups.</p>
+            </div>
+
+            <div class="patterns-grid" id="patternsGrid"></div>
+
+            <div class="info-box green">
+                <h4>Key Insight</h4>
+                <p>Once you understand the periodic table, you can decode almost any AI product or startup pitch. Ask yourself: "What elements are they using? What reactions are they running? Are they missing a safety layer? Are they over-engineering orchestration?"</p>
+            </div>
+        </div>
+
+        <!-- Challenge View -->
+        <div id="challenge" class="content-section">
+            <div class="challenge-container">
+                <div class="info-box blue">
+                    <h3>Map Your AI Idea</h3>
+                    <p>Pick elements from the periodic table to represent your AI product, startup idea, or feature. The system will analyze your combination and give you feedback.</p>
+                </div>
+
+                <div>
+                    <h4 style="font-weight: 700; margin-bottom: 1rem;">Select Elements</h4>
+                    <div class="element-selector-grid" id="challengeElements"></div>
+                </div>
+
+                <div class="action-buttons">
+                    <button class="btn btn-primary" id="analyzeBtn">Analyze My Selection</button>
+                    <button class="btn btn-secondary" id="clearBtn" style="display: none;">Clear Selection</button>
+                </div>
+
+                <div id="feedbackContainer"></div>
+
+                <div class="info-box green">
+                    <h4>Guiding Questions</h4>
+                    <ul class="guiding-questions">
+                        <li>• What elements are being used in your system?</li>
+                        <li>• What reactions (patterns) are they running?</li>
+                        <li>• Are you missing a safety element (Guardrails, Red Teaming, Interpretability)?</li>
+                        <li>• Are you over-engineering orchestration for a simple use case?</li>
+                        <li>• Are you using a Thinking Model where a Small Model might suffice?</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Detail Panel -->
+    <div id="detailOverlay" class="detail-overlay" style="display: none;"></div>
+    <div id="detailPanel" class="detail-panel" style="display: none;"></div>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <p>This AI Periodic Table is one proposed structure to help decode AI architectures, product demos, and pitches.</p>
+                <p>There is no official AI periodic table. This visualization is for educational purposes.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // ============ DATA ============
+        const FAMILIES = {
+            reactive: {
+                name: 'Reactive',
+                description: 'Control, action, autonomy',
+                color: '#D97706',
+                lightColor: '#FEF3C7',
+            },
+            retrieval: {
+                name: 'Retrieval',
+                description: 'Memory, semantic search, storage, adaptation',
+                color: '#0891B2',
+                lightColor: '#CFFAFE',
+            },
+            orchestration: {
+                name: 'Orchestration',
+                description: 'Composing multiple elements into workflows',
+                color: '#16A34A',
+                lightColor: '#DCFCE7',
+            },
+            validation: {
+                name: 'Validation',
+                description: 'Safety, red teaming, interpretability',
+                color: '#DC2626',
+                lightColor: '#FEE2E2',
+            },
+            models: {
+                name: 'Models',
+                description: 'Foundational and specialized models',
+                color: '#7C3AED',
+                lightColor: '#EDE9FE',
+            },
+        };
+
+        const ROWS = {
+            1: { name: 'Primitives', description: 'Atomic elements that cannot be broken down further' },
+            2: { name: 'Compositions', description: 'Combinations of primitives, powering most AI systems today' },
+            3: { name: 'Deployment', description: 'Elements used when putting systems into production' },
+            4: { name: 'Emerging', description: 'Rapidly evolving, frontier practices that are real but still maturing' },
+        };
+
+        const ELEMENTS = [
+            // Row 1: Primitives
+            { symbol: 'Pr', name: 'Prompting', fullName: 'Prompting', row: 1, family: 'reactive', description: 'User instructions that guide AI behavior', concept: 'User instructions like "write me an email", "summarize this document", "explain quantum physics"', properties: ['Atomic', 'Highly reactive: small wording changes produce very different outputs', 'Foundation for all AI interactions'], role: 'The fundamental way humans communicate intent to AI systems' },
+            { symbol: 'Em', name: 'Embeddings', fullName: 'Embeddings', row: 1, family: 'retrieval', description: 'Numerical representations of meaning', concept: 'Numerical representations of meaning (e.g., "the cat sat on the mat" → vector)', properties: ['Similar meanings → similar vectors', 'Basis for semantic search and AI "memory"', 'Enable machines to understand meaning'], role: 'The foundation of semantic understanding in AI systems' },
+            { symbol: 'Lg', name: 'LLM', fullName: 'Large Language Model', row: 1, family: 'models', description: 'Foundational language models', concept: 'Large language models like ChatGPT, Claude, IBM Granite', examples: ['ChatGPT', 'Claude', 'IBM Granite'], properties: ['Stable foundational capabilities', 'Noble gas analogy: everything else reacts around them', 'Core reasoning and generation engine'], role: 'The stable foundation around which everything else reacts' },
+
+            // Row 2: Compositions
+            { symbol: 'Fc', name: 'Function Calling', fullName: 'Function Calling', row: 2, family: 'reactive', description: 'LLM calls tools/APIs before answering', concept: 'LLM calls tools/APIs before answering (e.g., weather API to answer "What\'s the weather?")', properties: ['Requires: a model, structured output, tool integration', 'Enables LLMs to interact with external systems', 'Bridge between language and action'], role: 'Composition of Pr + Lg that enables tool use' },
+            { symbol: 'Vx', name: 'Vector Databases', fullName: 'Vector Databases', row: 2, family: 'retrieval', description: 'Data stores optimized for semantic search', concept: 'Data stores optimized for semantic search; store millions of embeddings, query for nearest ones', properties: ['Composition of embeddings into a vector store', 'Enable efficient semantic search at scale', 'Foundation for retrieval-augmented systems'], role: 'Composition of Em that enables large-scale semantic search' },
+            { symbol: 'Rg', name: 'RAG', fullName: 'Retrieval Augmented Generation', row: 2, family: 'orchestration', description: 'System retrieves relevant context via embeddings + vector DB, augments prompt, then LLM answers', concept: 'System retrieves relevant context via embeddings + vector DB, augments prompt, then LLM answers', properties: ['No primitive in row 1 under orchestration', 'Orchestration only emerges when combining multiple pieces', 'Grounds LLM responses in retrieved data'], role: 'Orchestration pattern combining Em, Vx, Pr, and Lg' },
+            { symbol: 'Gr', name: 'Guardrails', fullName: 'Guardrails', row: 2, family: 'validation', description: 'Runtime safety filters and validation', concept: 'Runtime safety filters, schema validation, content safety, prevention of "pure garbage"', properties: ['Ensures output safety and quality', 'Prevents sensitive data leakage', 'Validates schema and format compliance'], role: 'Safety wrapper for production AI systems' },
+            { symbol: 'Mm', name: 'Multimodal Models', fullName: 'Multimodal Models', row: 2, family: 'models', description: 'Models that process images and audio in addition to text', concept: 'Models that process images and audio in addition to text', properties: ['Extend LLM capabilities beyond text', 'Enable vision and audio understanding', 'Composition of multiple modality models'], role: 'Composition of Lg that adds multimodal capabilities' },
+
+            // Row 3: Deployment
+            { symbol: 'Ag', name: 'Agents', fullName: 'Agents', row: 3, family: 'reactive', description: 'Think–act–observe loops with autonomous planning', concept: 'Think–act–observe loops, planning and taking actions via tools/function calls, observing results, repeating until a goal', properties: ['Progression from prompt → function → agent', 'From control → action → autonomy', 'Autonomous goal-seeking behavior'], role: 'Composition of Pr, Fc, and Lg with iterative loops' },
+            { symbol: 'Ft', name: 'Fine Tuning', fullName: 'Fine Tuning', row: 3, family: 'retrieval', description: 'Adapt a base model by training on domain-specific data', concept: 'Adapt a base model by training on domain/use-case specific data (e.g., medical papers, company code)', properties: ['Adaptation as memory baked into model weights', 'Three time scales of memory: Em (encode), Vx (store), Ft (parameters)', 'Domain-specific model specialization'], role: 'Composition of Lg with domain adaptation' },
+            { symbol: 'Fw', name: 'Framework', fullName: 'Framework', row: 3, family: 'orchestration', description: 'Platforms tying everything together to build and deploy AI systems', concept: 'Platforms tying everything together to build and deploy AI systems (e.g., LangChain-like platforms)', examples: ['LangChain', 'LlamaIndex', 'Haystack'], properties: ['Orchestration platform for AI systems', 'Provides plumbing and deployment capabilities', 'Enables complex AI workflows'], role: 'Orchestration layer for production AI systems' },
+            { symbol: 'Rt', name: 'Red Teaming', fullName: 'Red Teaming', row: 3, family: 'validation', description: 'Adversarial testing to break the AI', concept: 'Adversarial testing: jailbreaks, prompt injection, data exfiltration attempts to "break the AI"', properties: ['Proactive safety testing', 'Identifies vulnerabilities before deployment', 'Ensures robustness against attacks'], role: 'Deployment-stage safety validation' },
+            { symbol: 'Sm', name: 'Small Models', fullName: 'Small Models', row: 3, family: 'models', description: 'Distilled, specialized, fast, cheap models', concept: 'Distilled, specialized, fast, cheap models that may run on a phone', properties: ['Optimized for efficiency', 'Can run on edge devices', 'Trade-off: capability for speed and cost'], role: 'Specialized, efficient models for deployment' },
+
+            // Row 4: Emerging
+            { symbol: 'Ma', name: 'Multi-Agent Systems', fullName: 'Multi-Agent Systems', row: 4, family: 'reactive', description: 'Multiple AIs collaborating and specializing', concept: 'Multiple AIs collaborating, specializing, debating, coordinating (e.g., research agent, writer agent, critic agent)', properties: ['Reactive family taken to the extreme', 'Emergent collective intelligence', 'Specialization and coordination'], role: 'Emerging pattern of multiple autonomous agents' },
+            { symbol: 'Sy', name: 'Synthetic Data', fullName: 'Synthetic Data', row: 4, family: 'retrieval', description: 'Using AI to generate training data for AI', concept: 'Using AI to generate training data for AI when real data is limited', properties: ['Increasingly important as we hit limits of available real data', 'AI-generated training data for AI systems', 'Addresses data scarcity challenges'], role: 'Emerging data generation pattern' },
+            { symbol: 'In', name: 'Interpretability', fullName: 'Interpretability', row: 4, family: 'validation', description: 'Understanding why a model behaves as it does', concept: 'Understanding why a model behaves as it does; finding neurons responsible for specific behaviors', properties: ['Frontier safety work', 'Enables transparency and trust', 'Identifies model reasoning'], role: 'Emerging safety and understanding paradigm' },
+            { symbol: 'Th', name: 'Thinking Models', fullName: 'Thinking Models', row: 4, family: 'models', description: 'Models that spend time reasoning instead of immediate answers', concept: 'Models that spend time reasoning instead of immediate answers; chain-of-thought built directly into architecture, test-time compute scaling', properties: ['Chain-of-thought built directly into architecture', 'Test-time compute scaling', 'Tend to be the smartest models today'], role: 'Emerging frontier in model capabilities' },
+        ];
+
+        const PATTERNS = [
+            { title: 'AI Image Generators', description: 'Generate images from text prompts', flow: [{ symbol: 'Pr', text: 'Prompt', color: '#D97706' }, { symbol: 'Mm', text: 'Multimodal', color: '#7C3AED' }], example: 'DALL-E, Midjourney, Stable Diffusion' },
+            { title: 'Code Assistants', description: 'Understand and generate code', flow: [{ symbol: 'Ft', text: 'Fine-tune', color: '#0891B2' }, { symbol: 'Pr', text: 'Prompt', color: '#D97706' }, { symbol: 'Lg', text: 'LLM', color: '#7C3AED' }], example: 'GitHub Copilot, Cursor, Claude' },
+            { title: 'Search & Recommendation', description: 'Find relevant information', flow: [{ symbol: 'Em', text: 'Embed', color: '#0891B2' }, { symbol: 'Vx', text: 'Vector DB', color: '#0891B2' }], example: 'Semantic search, recommendation engines' },
+            { title: 'Autonomous Workflows', description: 'Complete tasks automatically', flow: [{ symbol: 'Ag', text: 'Agent', color: '#D97706' }, { symbol: 'Fc', text: 'Function', color: '#D97706' }, { symbol: 'Fw', text: 'Framework', color: '#16A34A' }], example: 'Zapier AI, Make, n8n' },
+        ];
+
+        const RAG_FLOW = [
+            { step: 1, title: 'Em (Embeddings)', description: 'Convert documents to numerical vectors', color: '#0891B2' },
+            { step: 2, title: 'Vx (Vector Database)', description: 'Store embeddings for semantic search', color: '#0891B2' },
+            { step: 3, title: 'Rg (RAG)', description: 'Retrieve relevant chunks at query time', color: '#16A34A' },
+            { step: 4, title: 'Pr (Prompt)', description: 'Augment user prompt with retrieved context', color: '#D97706' },
+            { step: 5, title: 'Lg (LLM)', description: 'Generate grounded answers', color: '#7C3AED' },
+            { step: 6, title: 'Gr (Guardrails)', description: 'Optional safety layer', color: '#DC2626' },
+        ];
+
+        const AGENT_FLOW = [
+            { step: 1, title: 'Ag (Agent)', description: 'Think and plan tasks', color: '#D97706' },
+            { step: 2, title: 'Fc (Function Calling)', description: 'Act by calling external tools', color: '#D97706' },
+            { step: 3, title: 'Observe', description: 'Analyze results', color: '#0891B2' },
+            { step: 4, title: 'Repeat', description: 'Loop until goal achieved', color: '#16A34A' },
+            { step: 5, title: 'Fw (Framework)', description: 'Deploy within orchestration platform', color: '#16A34A' },
+        ];
+
+        // ============ STATE ============
+        let selectedFamily = null;
+        let selectedRow = null;
+        let selectedElement = null;
+        let selectedChallengeElements = new Set();
+        let currentReaction = 'rag';
+
+        // ============ UTILITY FUNCTIONS ============
+        function getElementBySymbol(symbol) {
+            return ELEMENTS.find(el => el.symbol === symbol);
+        }
+
+        function shouldShowElement(element) {
+            if (selectedFamily && element.family !== selectedFamily) return false;
+            if (selectedRow && element.row !== selectedRow) return false;
+            return true;
+        }
+
+        function createElementCard(element) {
+            const familyColor = FAMILIES[element.family].color;
+            const familyLightColor = FAMILIES[element.family].lightColor;
+            const isHidden = !shouldShowElement(element);
+
+            const card = document.createElement('div');
+            card.className = `element-card ${isHidden ? 'hidden' : ''} ${selectedElement?.symbol === element.symbol ? 'selected' : ''}`;
+            card.style.borderColor = isHidden ? undefined : familyColor;
+            card.style.backgroundColor = isHidden ? undefined : familyLightColor;
+            card.style.setProperty('--family-color', familyColor);
+
+            card.innerHTML = `
+                <div class="element-card-content">
+                    <div class="element-symbol" style="color: ${familyColor};">${element.symbol}</div>
+                    <div class="element-name">${element.name}</div>
+                    <div class="element-family" style="color: ${familyColor};">${FAMILIES[element.family].name}</div>
+                    <p class="element-description">${element.description}</p>
+                    <div class="element-hint">Click for details →</div>
+                </div>
+            `;
+
+            card.addEventListener('click', () => showDetailPanel(element));
+            return card;
+        }
+
+        function createEmptySlot() {
+            const slot = document.createElement('div');
+            slot.className = 'empty-slot';
+            slot.textContent = '(not defined)';
+            return slot;
+        }
+
+        function renderPeriodicTable() {
+            const table = document.getElementById('periodicTable');
+            table.innerHTML = '';
+
+            for (let row = 1; row <= 4; row++) {
+                const rowSection = document.createElement('div');
+                rowSection.className = 'row-section';
+
+                const rowHeader = document.createElement('div');
+                rowHeader.className = 'row-header';
+                rowHeader.innerHTML = `
+                    <div class="row-label">
+                        <h2>Row ${row}</h2>
+                        <p>${ROWS[row].name}</p>
+                    </div>
+                    <div class="row-divider"></div>
+                `;
+                rowSection.appendChild(rowHeader);
+
+                const familyHeaders = document.createElement('div');
+                familyHeaders.className = 'family-headers';
+                Object.entries(FAMILIES).forEach(([key, family]) => {
+                    const header = document.createElement('div');
+                    header.className = 'family-header';
+                    header.innerHTML = `
+                        <div class="family-header-title" style="color: ${family.color};">${family.name}</div>
+                        <div class="family-header-desc">${family.description}</div>
+                    `;
+                    familyHeaders.appendChild(header);
+                });
+                rowSection.appendChild(familyHeaders);
+
+                const grid = document.createElement('div');
+                grid.className = 'elements-grid';
+
+                Object.keys(FAMILIES).forEach(familyKey => {
+                    const element = ELEMENTS.find(el => el.row === row && el.family === familyKey);
+                    if (element) {
+                        grid.appendChild(createElementCard(element));
+                    } else {
+                        grid.appendChild(createEmptySlot());
+                    }
+                });
+
+                rowSection.appendChild(grid);
+                table.appendChild(rowSection);
+            }
+        }
+
+        function showDetailPanel(element) {
+            selectedElement = element;
+            const familyColor = FAMILIES[element.family].color;
+            const familyLightColor = FAMILIES[element.family].lightColor;
+
+            const panel = document.getElementById('detailPanel');
+            const overlay = document.getElementById('detailOverlay');
+
+            panel.innerHTML = `
+                <div class="detail-header" style="background-color: ${familyLightColor};">
+                    <div class="detail-header-top">
+                        <div>
+                            <div class="detail-symbol" style="color: ${familyColor};">${element.symbol}</div>
+                            <div class="detail-title">${element.fullName}</div>
+                        </div>
+                        <button class="detail-close">×</button>
+                    </div>
+                </div>
+                <div class="detail-content">
+                    <div class="detail-section">
+                        <div class="detail-section-title">Family</div>
+                        <div class="detail-section-text">${FAMILIES[element.family].name}</div>
+                    </div>
+                    <div class="detail-section">
+                        <div class="detail-section-title">Row</div>
+                        <div class="detail-section-text">${ROWS[element.row].name}</div>
+                    </div>
+                    <div class="detail-section">
+                        <div class="detail-section-title">Description</div>
+                        <div class="detail-section-text">${element.description}</div>
+                    </div>
+                    <div class="detail-section">
+                        <div class="detail-section-title">Concept</div>
+                        <div class="detail-section-text">${element.concept}</div>
+                    </div>
+                    ${element.role ? `
+                    <div class="detail-section">
+                        <div class="detail-section-title">Role</div>
+                        <div class="detail-section-text">${element.role}</div>
+                    </div>
+                    ` : ''}
+                    ${element.properties ? `
+                    <div class="detail-section">
+                        <div class="detail-section-title">Properties</div>
+                        <ul class="detail-list">
+                            ${element.properties.map(prop => `<li>${prop}</li>`).join('')}
+                        </ul>
+                    </div>
+                    ` : ''}
+                    ${element.examples ? `
+                    <div class="detail-section">
+                        <div class="detail-section-title">Examples</div>
+                        <ul class="detail-list">
+                            ${element.examples.map(ex => `<li>${ex}</li>`).join('')}
+                        </ul>
+                    </div>
+                    ` : ''}
+                </div>
+            `;
+
+            panel.style.display = 'block';
+            overlay.style.display = 'block';
+
+            const closeBtn = panel.querySelector('.detail-close');
+            closeBtn.addEventListener('click', closeDetailPanel);
+            overlay.addEventListener('click', closeDetailPanel);
+
+            renderPeriodicTable();
+        }
+
+        function closeDetailPanel() {
+            selectedElement = null;
+            document.getElementById('detailPanel').style.display = 'none';
+            document.getElementById('detailOverlay').style.display = 'none';
+            renderPeriodicTable();
+        }
+
+        function renderReactionsView() {
+            const ragFlow = document.getElementById('rag-flow');
+            ragFlow.innerHTML = RAG_FLOW.map((step, idx) => `
+                <div class="flow-step">
+                    <div class="step-number" style="background-color: ${step.color};">${step.step}</div>
+                    <div class="step-content">
+                        <h4>${step.title}</h4>
+                        <p>${step.description}</p>
+                    </div>
+                </div>
+                ${idx < RAG_FLOW.length - 1 ? '<div class="flow-divider"><div class="flow-divider-line"></div></div>' : ''}
+            `).join('');
+
+            const agentFlow = document.getElementById('agent-flow');
+            agentFlow.innerHTML = AGENT_FLOW.map((step, idx) => `
+                <div class="flow-step">
+                    <div class="step-number" style="background-color: ${step.color};">${step.step}</div>
+                    <div class="step-content">
+                        <h4>${step.title}</h4>
+                        <p>${step.description}</p>
+                    </div>
+                </div>
+                ${idx < AGENT_FLOW.length - 1 ? '<div class="flow-divider"><div class="flow-divider-line"></div></div>' : ''}
+            `).join('');
+        }
+
+        function renderPatternsView() {
+            const grid = document.getElementById('patternsGrid');
+            grid.innerHTML = PATTERNS.map(pattern => `
+                <div class="pattern-card">
+                    <div class="pattern-title">${pattern.title}</div>
+                    <div class="pattern-desc">${pattern.description}</div>
+                    <div class="pattern-flow">
+                        ${pattern.flow.map((el, idx) => `
+                            <div class="pattern-element">
+                                <div class="pattern-element-circle" style="background-color: ${el.color};">${el.symbol}</div>
+                                <div class="pattern-element-label">${el.text}</div>
+                            </div>
+                            ${idx < pattern.flow.length - 1 ? '<div class="pattern-arrow">→</div>' : ''}
+                        `).join('')}
+                    </div>
+                    <div class="pattern-example">
+                        <div class="pattern-example-label">Examples:</div>
+                        <div class="pattern-example-text">${pattern.example}</div>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function renderChallengeView() {
+            const container = document.getElementById('challengeElements');
+            container.innerHTML = ELEMENTS.map(el => `
+                <button class="element-selector ${selectedChallengeElements.has(el.symbol) ? 'selected' : ''}" data-symbol="${el.symbol}">
+                    <div style="font-weight: 700; color: ${FAMILIES[el.family].color};">${el.symbol}</div>
+                    <div style="font-size: 0.625rem; color: var(--color-gray-600);">${el.name}</div>
+                </button>
+            `).join('');
+
+            document.querySelectorAll('.element-selector').forEach(btn => {
+                btn.addEventListener('click', () => {
+                    const symbol = btn.dataset.symbol;
+                    if (selectedChallengeElements.has(symbol)) {
+                        selectedChallengeElements.delete(symbol);
+                    } else {
+                        selectedChallengeElements.add(symbol);
+                    }
+                    renderChallengeView();
+                });
+            });
+
+            document.getElementById('clearBtn').style.display = selectedChallengeElements.size > 0 ? 'block' : 'none';
+        }
+
+        function analyzeCombination() {
+            if (selectedChallengeElements.size === 0) {
+                showFeedback('Please select at least one element to analyze.');
+                return;
+            }
+
+            const selected = ELEMENTS.filter(el => selectedChallengeElements.has(el.symbol));
+            const families = new Set(selected.map(el => el.family));
+            const hasSafety = selected.some(el => el.family === 'validation');
+            const hasOrchestration = selected.some(el => el.family === 'orchestration');
+            const hasModels = selected.some(el => el.family === 'models');
+
+            let analysis = `You've selected ${selected.length} element${selected.length > 1 ? 's' : ''}: ${selected.map(el => el.symbol).join(', ')}.\n\n`;
+            analysis += `Families involved: ${Array.from(families).map(f => FAMILIES[f].name).join(', ')}\n\n`;
+
+            if (selected.length === 1) {
+                analysis += `This is a primitive element. Most AI systems combine multiple elements to create reactions.\n\n`;
+            } else if (selected.length === 2) {
+                analysis += `This is a simple composition. You're combining two elements.\n\n`;
+            } else {
+                analysis += `This is a complex system with ${selected.length} elements.\n\n`;
+            }
+
+            if (!hasSafety) {
+                analysis += `⚠️ Safety Alert: You're missing a validation element (Guardrails, Red Teaming, or Interpretability). Consider adding safety layers.\n\n`;
+            }
+
+            if (!hasModels) {
+                analysis += `⚠️ Missing Models: Every AI system needs a model (LLM, Multimodal, Small Model, or Thinking Model).\n\n`;
+            }
+
+            if (hasOrchestration && selected.length === 1) {
+                analysis += `💡 Insight: You selected an orchestration element alone. Consider pairing it with reactive or retrieval elements.\n\n`;
+            }
+
+            analysis += `This combination represents a ${selected.length}-element AI system.`;
+
+            showFeedback(analysis);
+        }
+
+        function showFeedback(text) {
+            const container = document.getElementById('feedbackContainer');
+            container.innerHTML = `
+                <div class="feedback-box amber">
+                    <h4>Analysis</h4>
+                    <p>${text}</p>
+                </div>
+            `;
+        }
+
+        // ============ EVENT LISTENERS ============
+        document.querySelectorAll('.nav-tab').forEach(btn => {
+            btn.addEventListener('click', () => {
+                const tabName = btn.dataset.tab;
+                document.querySelectorAll('.nav-tab').forEach(b => b.classList.remove('active'));
+                document.querySelectorAll('.content-section').forEach(s => s.classList.remove('active'));
+                btn.classList.add('active');
+                document.getElementById(tabName).classList.add('active');
+
+                if (tabName === 'reactions') renderReactionsView();
+                if (tabName === 'patterns') renderPatternsView();
+                if (tabName === 'challenge') renderChallengeView();
+            });
+        });
+
+        document.querySelectorAll('.reaction-tab').forEach(btn => {
+            btn.addEventListener('click', () => {
+                const reaction = btn.dataset.reaction;
+                currentReaction = reaction;
+                document.querySelectorAll('.reaction-tab').forEach(b => b.classList.remove('active'));
+                document.querySelectorAll('.reaction-content').forEach(c => c.classList.remove('active'));
+                btn.classList.add('active');
+                document.getElementById(reaction + '-content').classList.add('active');
+            });
+        });
+
+        document.querySelectorAll('.filter-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                const filterType = btn.dataset.filter;
+                const value = btn.dataset.value;
+
+                if (filterType === 'family') {
+                    if (value === 'all') {
+                        selectedFamily = null;
+                        document.querySelectorAll('[data-filter="family"]').forEach(b => {
+                            b.classList.toggle('all-active', b.dataset.value === 'all');
+                            b.classList.remove('active');
+                        });
+                    } else {
+                        selectedFamily = value;
+                        document.querySelectorAll('[data-filter="family"]').forEach(b => {
+                            b.classList.remove('all-active');
+                            b.classList.toggle('active', b.dataset.value === value);
+                        });
+                    }
+                } else if (filterType === 'row') {
+                    if (value === 'all') {
+                        selectedRow = null;
+                        document.querySelectorAll('[data-filter="row"]').forEach(b => {
+                            b.classList.toggle('all-active', b.dataset.value === 'all');
+                            b.classList.remove('active');
+                        });
+                    } else {
+                        selectedRow = parseInt(value);
+                        document.querySelectorAll('[data-filter="row"]').forEach(b => {
+                            b.classList.remove('all-active');
+                            b.classList.toggle('active', b.dataset.value === value);
+                        });
+                    }
+                }
+
+                renderPeriodicTable();
+            });
+        });
+
+        document.getElementById('analyzeBtn').addEventListener('click', analyzeCombination);
+        document.getElementById('clearBtn').addEventListener('click', () => {
+            selectedChallengeElements.clear();
+            document.getElementById('feedbackContainer').innerHTML = '';
+            renderChallengeView();
+        });
+
+        // ============ INITIALIZATION ============
+        renderPeriodicTable();
+    </script>
+</body>
+</html>
